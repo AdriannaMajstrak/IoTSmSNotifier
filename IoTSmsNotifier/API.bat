@@ -1,0 +1,1 @@
+dotnet E:\Dev\IoTSmSNotifier\IoTSmsNotifier\IoTNotifier.DatabaseApi\bin\Debug\netcoreapp2.1\IoTNotifier.DatabaseApi.dll

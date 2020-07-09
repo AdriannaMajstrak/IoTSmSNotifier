@@ -1,0 +1,88 @@
+﻿<Page
+    x:Class="IoTSmsNotifier.SubscribePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IoTSmsNotifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="using:IoTSmsNotifier.Converter"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVis" />
+        <converter:BoolToColorConverter x:Key="BoolToColorConverter" />
+    </UserControl.Resources>
+
+
+    <Grid>
+        <Image Source="/Resources/pexels-photo-48605.jpg" Stretch="UniformToFill"></Image>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="400"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <!--Header-->
+            <StackPanel Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch">
+                <TextBlock Foreground="White" FontSize="48" HorizontalAlignment="Center">Nowa subskrypcja</TextBlock>
+            </StackPanel>
+
+            <!--Phone number-->
+            <Grid Margin="0,50,0,0" Grid.Column="1"  Grid.Row="1" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox VerticalContentAlignment="Center" Height="65" HorizontalAlignment="Stretch" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                    <TextBox.Header>
+                        <TextBlock Foreground="White" Text="Wpisz numer telefonu (9 cyfr)"></TextBlock>
+                    </TextBox.Header>
+                </TextBox>
+                <TextBlock Grid.Column="1" Visibility="{Binding PhoneError, Converter={StaticResource BoolToVis}}" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Text=" !" Foreground="Red" FontWeight="ExtraBlack"></TextBlock>
+            </Grid>
+
+            <!--Type-->
+            <Grid Margin="0,50,0,0" Grid.Column="1" Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                    <RowDefinition Height="auto"></RowDefinition>
+                </Grid.RowDefinitions>
+                <TextBlock Foreground="White" Grid.Row="0" Text="Rodzaj subskrypcji:" Style="{ThemeResource BaseTextBlockStyle}"/>
+                <RadioButton Foreground="White"  Grid.Row="1" Content="Alarmowy" Command="{Binding RadioButtonAlertChosed}" IsChecked="{Binding AlertSms}"/>
+                <RadioButton Foreground="White" Grid.Row="2" Content="Dzienny" Command="{Binding RadioButtonDailyChosed}" IsChecked="{Binding DailySms}" />
+            </Grid>
+
+            <!--Hour-->
+            <Grid Margin="0,50,0,0" Grid.Column="1" Grid.Row="3" >
+                <ComboBox  Height="65" ItemsSource="{Binding Hours}" SelectedItem="{Binding ChosenHour, Mode=TwoWay}" 
+                               HorizontalAlignment="Stretch" Visibility="{Binding DailySms, Converter={StaticResource BoolToVis}}">
+                    <ComboBox.Header>
+                        <TextBlock Foreground="White" Text="Wybór godziny wysłania sms"></TextBlock>
+                    </ComboBox.Header>
+                </ComboBox>
+            </Grid>
+
+            <!--Buttons-->
+            <Grid Margin="0,50,0,0" Grid.Column="1" Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <Button Foreground="Black" Grid.Row="0" IsEnabled="{Binding SaveEnabled}" Command="{Binding SaveSubscriptionInfo}" Content="Zapisz" HorizontalAlignment="Stretch" Height="67" Background="#0073CF" ></Button>
+                <Button Foreground="Black" Grid.Row="1" Margin="0,20,0,0" x:Name="BackBtn" Content="Powrót" HorizontalAlignment="Stretch" Height="67" Click="BackBtn_Click"/>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</Page>
